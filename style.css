@@ -29,10 +29,10 @@
     --beige: #F4EDE0;
     --beige-warm: #E8DCC6;
     
-    /* Text Colors */
-    --text-dark: #6B5445;
-    --text-medium: #8B6F5E;
-    --text-light: #A68B7A;
+    /* Text Colors - Improved Contrast */
+    --text-dark: #3A2E2A;
+    --text-medium: #5A4A3A;
+    --text-light: #6B5445;
     
     /* Neutrals */
     --black: #3A2E2A;
@@ -291,7 +291,7 @@ h4 {
 }
 
 p {
-    color: var(--text-light);
+    color: var(--text-medium);
     margin-bottom: 1rem;
 }
 
@@ -379,9 +379,9 @@ p {
 
 .nav-link {
     text-decoration: none;
-    color: var(--text-light);
+    color: var(--text-medium);
     font-family: var(--font-body);
-    font-weight: 400;
+    font-weight: 500;
     font-size: 0.95rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
@@ -610,7 +610,7 @@ p {
 
 .hero-subtitle {
     font-size: 1.5rem;
-    color: var(--text-light);
+    color: var(--text-medium);
     margin-bottom: 1.5rem;
     font-weight: 400;
     animation: fadeInUp 0.8s ease-out 0.4s backwards;
@@ -618,7 +618,7 @@ p {
 
 .hero-description {
     font-size: 1.1rem;
-    color: var(--text-light);
+    color: var(--text-medium);
     margin-bottom: 2.5rem;
     line-height: 1.8;
     animation: fadeInUp 0.8s ease-out 0.6s backwards;
@@ -677,7 +677,7 @@ p {
 .section-subtitle {
     text-align: center;
     font-size: 1.1rem;
-    color: var(--text-light);
+    color: var(--text-medium);
     margin-bottom: 3rem;
 }
 
@@ -845,7 +845,7 @@ p {
 
 .hampers-description {
     font-size: 1rem;
-    color: var(--text-light);
+    color: var(--text-medium);
     margin-bottom: 2.5rem;
     line-height: 1.8;
 }
@@ -887,7 +887,7 @@ p {
 
 .coming-soon-text {
     font-size: 1.2rem;
-    color: var(--text-light);
+    color: var(--text-medium);
     margin-bottom: 2.5rem;
 }
 
@@ -1813,7 +1813,7 @@ p {
 
 .page-subtitle {
     font-size: 1.2rem;
-    color: var(--text-light);
+    color: var(--text-medium);
     max-width: 600px;
     margin: 0 auto;
     animation: fadeInUp 1s ease-out;
@@ -1898,7 +1898,7 @@ p {
 }
 
 .contact-card p {
-    color: var(--text-light);
+    color: var(--text-medium);
     margin-bottom: 0.5rem;
 }
 
@@ -1984,7 +1984,7 @@ p {
     font-size: 1.05rem;
     line-height: 1.9;
     margin-bottom: 1.5rem;
-    color: var(--text-light);
+    color: var(--text-medium);
 }
 
 .founder-title {
@@ -2066,7 +2066,7 @@ p {
 
 .cart-item-description {
     font-size: 0.9rem;
-    color: var(--text-light);
+    color: var(--text-medium);
     margin-bottom: 1rem;
 }
 
@@ -2166,7 +2166,7 @@ p {
     display: flex;
     justify-content: space-between;
     padding: 0.75rem 0;
-    color: var(--text-light);
+    color: var(--text-medium);
     font-size: 1rem;
     border-bottom: 1px solid rgba(232, 180, 168, 0.2);
 }
@@ -2263,7 +2263,7 @@ p {
 
 .checkout-item-info p {
     font-size: 0.9rem;
-    color: var(--text-light);
+    color: var(--text-medium);
     margin-bottom: 0.25rem;
 }
 
