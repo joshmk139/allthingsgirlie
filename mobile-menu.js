@@ -4,46 +4,86 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
     
-    if (menuToggle && navMenu) {
-        // Close menu function
-        function closeMenu() {
-            menuToggle.setAttribute('aria-expanded', 'false');
-            menuToggle.classList.remove('active');
-            navMenu.classList.remove('active');
-            document.body.classList.remove('menu-open');
-            document.body.style.overflow = '';
+    if (!menuToggle || !navMenu) {
+        console.warn('Mobile menu elements not found');
+        return;
+    }
+    
+    let isMenuOpen = false;
+    
+    // Close menu function
+    function closeMenu() {
+        if (!isMenuOpen) return;
+        
+        isMenuOpen = false;
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        document.body.style.overflow = '';
+    }
+    
+    // Open menu function
+    function openMenu() {
+        if (isMenuOpen) return;
+        
+        isMenuOpen = true;
+        menuToggle.setAttribute('aria-expanded', 'true');
+        menuToggle.classList.add('active');
+        navMenu.classList.add('active');
+        document.body.classList.add('menu-open');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Toggle menu
+    menuToggle.addEventListener('click', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        if (isMenuOpen) {
+            closeMenu();
+        } else {
+            openMenu();
         }
-        
-        // Toggle menu
-        menuToggle.addEventListener('click', function(event) {
-            event.stopPropagation();
-            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-            menuToggle.setAttribute('aria-expanded', !isExpanded);
-            menuToggle.classList.toggle('active');
-            navMenu.classList.toggle('active');
-            document.body.classList.toggle('menu-open');
-            document.body.style.overflow = !isExpanded ? 'hidden' : '';
+    });
+    
+    // Close menu when clicking on a navigation link
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            // Small delay to allow navigation
+            setTimeout(closeMenu, 100);
         });
-        
-        // Close menu when clicking on a link
-        navLinks.forEach(link => {
-            link.addEventListener('click', closeMenu);
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const isClickInsideNav = navMenu.contains(event.target);
+    });
+    
+    // Close menu when clicking on overlay (body::before)
+    document.addEventListener('click', function(event) {
+        // Only close if menu is open and click is outside menu and toggle
+        if (isMenuOpen) {
+            const isClickInsideMenu = navMenu.contains(event.target);
             const isClickOnToggle = menuToggle.contains(event.target);
             
-            if (!isClickInsideNav && !isClickOnToggle && navMenu.classList.contains('active')) {
+            if (!isClickInsideMenu && !isClickOnToggle) {
                 closeMenu();
             }
-        });
-        
-        // Prevent clicks inside menu from closing it
-        navMenu.addEventListener('click', function(event) {
-            event.stopPropagation();
-        });
-    }
+        }
+    });
+    
+    // Close menu on escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && isMenuOpen) {
+            closeMenu();
+        }
+    });
+    
+    // Close menu on window resize (if resizing to desktop)
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            if (window.innerWidth > 768 && isMenuOpen) {
+                closeMenu();
+            }
+        }, 250);
+    });
 });
 
