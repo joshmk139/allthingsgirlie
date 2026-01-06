@@ -7,11 +7,25 @@ class CartManager {
 
     init() {
         this.updateCartBadge();
-        if (document.querySelector('.cart-items')) {
-            this.renderCart();
+        // Only render cart on cart.html page
+        const cartItemsContainer = document.querySelector('.cart-items');
+        if (cartItemsContainer) {
+            // Check if we're on the cart page by checking if cart-items container exists
+            // This is safer than checking pathname which may not work with file:// protocol
+            const isCartPage = cartItemsContainer.closest('section') && 
+                               document.querySelector('.cart-summary');
+            if (isCartPage) {
+                this.renderCart();
+            }
         }
-        if (document.querySelector('.checkout-items')) {
-            this.renderCheckoutSummary();
+        // Only render checkout summary on checkout.html page
+        const checkoutItemsContainer = document.querySelector('.checkout-items');
+        if (checkoutItemsContainer) {
+            // Check if we're on checkout page by checking for checkout form
+            const isCheckoutPage = document.querySelector('.checkout-form-section');
+            if (isCheckoutPage) {
+                this.renderCheckoutSummary();
+            }
         }
         this.attachEventListeners();
     }
@@ -102,7 +116,8 @@ class CartManager {
         this.showNotification(`${product.name} added to cart!`);
         
         // If on cart page, re-render
-        if (document.querySelector('.cart-items')) {
+        const cartItemsContainer = document.querySelector('.cart-items');
+        if (cartItemsContainer && document.querySelector('.cart-summary')) {
             this.renderCart();
         }
     }
@@ -110,10 +125,12 @@ class CartManager {
     removeFromCart(productId) {
         this.cart = this.cart.filter(item => item.id !== productId);
         this.saveCart();
-        if (document.querySelector('.cart-items')) {
+        const cartItemsContainer = document.querySelector('.cart-items');
+        if (cartItemsContainer && document.querySelector('.cart-summary')) {
             this.renderCart();
         }
-        if (document.querySelector('.checkout-items')) {
+        const checkoutItemsContainer = document.querySelector('.checkout-items');
+        if (checkoutItemsContainer && document.querySelector('.checkout-form-section')) {
             this.renderCheckoutSummary();
         }
         this.showNotification('Item removed from cart');
@@ -129,10 +146,12 @@ class CartManager {
         if (item) {
             item.quantity = newQuantity;
             this.saveCart();
-            if (document.querySelector('.cart-items')) {
+            const cartItemsContainer = document.querySelector('.cart-items');
+            if (cartItemsContainer && document.querySelector('.cart-summary')) {
                 this.renderCart();
             }
-            if (document.querySelector('.checkout-items')) {
+            const checkoutItemsContainer = document.querySelector('.checkout-items');
+            if (checkoutItemsContainer && document.querySelector('.checkout-form-section')) {
                 this.renderCheckoutSummary();
             }
         }

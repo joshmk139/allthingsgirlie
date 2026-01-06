@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete your purchase securely with Paystack payment.">
+    <link rel="icon" type="image/png" href="IMG_2357.PNG">
     <title>Checkout | All things girlie</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="config.js"></script>
     <script src="cart.js" defer></script>
     <script src="mobile-menu.js" defer></script>
 </head>
@@ -27,7 +30,7 @@
         <div class="container">
             <nav class="navbar">
                 <div class="logo">
-                    <a href="index.html"><img src="IMG_0536.JPG" alt="All things girlie"></a>
+                    <a href="index.html"><img src="IMG_2357.PNG" alt="All things girlie logo"></a>
                 </div>
                 <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
                     <span></span>
@@ -44,7 +47,7 @@
                     <li><a href="cart.html" class="nav-link cart-link">
                         <span class="cart-icon">🛒</span>
                         <span class="cart-text">Cart</span>
-                        <span class="cart-badge">2</span>
+                        <span class="cart-badge" style="display: none;">0</span>
                     </a></li>
                 </ul>
             </nav>
@@ -193,9 +196,17 @@
             const totalInNGN = totals.total * 1450;
             const amountInKobo = Math.round(totalInNGN * 100);
             
+            // Get Paystack key from config
+            const paystackKey = window.CONFIG?.PAYSTACK?.PUBLIC_KEY || 'pk_test_YOUR_PUBLIC_KEY';
+            
+            if (paystackKey === 'pk_test_YOUR_PUBLIC_KEY') {
+                alert('Please configure your Paystack API key in config.js before processing payments.');
+                return;
+            }
+            
             // Paystack payment handler
             const handler = PaystackPop.setup({
-                key: 'pk_test_YOUR_PUBLIC_KEY', // Replace with your Paystack public key
+                key: paystackKey,
                 email: email,
                 amount: amountInKobo, // Amount in kobo
                 currency: 'NGN',
@@ -221,13 +232,26 @@
                 },
                 callback: function(response) {
                     // Payment successful
-                    alert('Payment successful! Reference: ' + response.reference);
-                    // Redirect to success page or show success message
-                    // window.location.href = 'payment-success.html?reference=' + response.reference;
+                    console.log('Payment successful!', response);
+                    
+                    // Clear cart after successful payment
+                    if (window.cartManager) {
+                        window.cartManager.cart = [];
+                        window.cartManager.saveCart();
+                    }
+                    
+                    // Show success message and redirect
+                    const successMessage = `Payment successful!\n\nReference: ${response.reference}\n\nThank you for your purchase!`;
+                    alert(successMessage);
+                    
+                    // Redirect to home page
+                    window.location.href = 'index.html?payment=success&ref=' + response.reference;
                 },
                 onClose: function() {
                     // User closed the payment modal
-                    alert('Payment window closed. You can complete your payment later.');
+                    console.log('Payment window closed by user');
+                    // Optionally show a message
+                    // alert('Payment window closed. You can complete your payment later.');
                 }
             });
             

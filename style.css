@@ -6,6 +6,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 :root {
@@ -226,6 +228,8 @@ body {
     height: 100%;
     z-index: -1;
     overflow: hidden;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 .video-background video {
@@ -252,6 +256,8 @@ body {
     background: linear-gradient(135deg, rgba(250, 245, 242, 0.9) 0%, rgba(255, 240, 235, 0.9) 100%);
     z-index: -1;
     opacity: 0.85;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 }
 
 .main-content {
@@ -321,18 +327,20 @@ p {
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    padding: 0.5rem 1rem;
-    background: linear-gradient(135deg, rgba(232, 180, 168, 0.1) 0%, rgba(244, 237, 224, 0.1) 100%);
-    border-radius: 15px;
-    border: 1px solid rgba(232, 180, 168, 0.2);
+    padding: 0;
+    background: none !important;
+    background-color: transparent !important;
+    border-radius: 0;
+    border: none;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     animation: scaleIn 0.6s ease-out;
 }
 
 .logo:hover {
-    background: linear-gradient(135deg, rgba(232, 180, 168, 0.2) 0%, rgba(244, 237, 224, 0.2) 100%);
-    border-color: rgba(232, 180, 168, 0.4);
-    box-shadow: 0 6px 20px rgba(232, 180, 168, 0.25);
+    background: none !important;
+    background-color: transparent !important;
+    border: none;
+    box-shadow: none;
     transform: scale(1.05);
 }
 
@@ -360,14 +368,15 @@ p {
 }
 
 .logo img {
-    max-height: 55px;
+    width: 120px;
     height: auto;
-    width: auto;
-    max-width: 180px;
     display: block;
     object-fit: contain;
-    transition: all 0.3s ease;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    background: none !important;
+    background-color: transparent !important;
+    border-radius: 0;
+    box-shadow: none;
+    mix-blend-mode: normal;
 }
 
 .nav-menu {
@@ -1020,6 +1029,12 @@ p {
     margin: 0;
 }
 
+.footer-bottom .footer-madeby {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
 /* ============================================
    Responsive Design (Mobile-First)
    ============================================ */
@@ -1061,8 +1076,6 @@ p {
     
     html {
         font-size: 16px;
-        -webkit-text-size-adjust: 100%;
-        -ms-text-size-adjust: 100%;
     }
     
     body {
@@ -1993,6 +2006,21 @@ p {
     margin-bottom: 1rem;
 }
 
+.about-paragraph.founder-name {
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 1rem;
+}
+
+.about-section {
+    padding-bottom: 4rem;
+}
+
+.section-title {
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
 /* ============================================
    Cart & Checkout Styles
    ============================================ */
@@ -2090,7 +2118,7 @@ p {
     background: none;
     border: none;
     font-size: 1.2rem;
-    color: var(--rose-gold-dark);
+    color: var (--rose-gold-dark);
     cursor: pointer;
     width: 30px;
     height: 30px;
@@ -2166,7 +2194,7 @@ p {
     display: flex;
     justify-content: space-between;
     padding: 0.75rem 0;
-    color: var(--text-medium);
+    color: var (--text-medium);
     font-size: 1rem;
     border-bottom: 1px solid rgba(232, 180, 168, 0.2);
 }
@@ -2416,5 +2444,16 @@ p {
 .form-group textarea::placeholder {
     color: var(--text-light);
     opacity: 0.6;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
 }
 
