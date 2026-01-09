@@ -35,8 +35,23 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = 'hidden';
     }
     
-    // Toggle menu
+    // Toggle menu - improved for mobile
     menuToggle.addEventListener('click', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Force focus for better mobile interaction
+        menuToggle.focus();
+        
+        if (isMenuOpen) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+    
+    // Touch event for better mobile support
+    menuToggle.addEventListener('touchend', function(event) {
         event.preventDefault();
         event.stopPropagation();
         
@@ -53,6 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Small delay to allow navigation
             setTimeout(closeMenu, 100);
         });
+        
+        // Also handle touch events
+        link.addEventListener('touchend', function() {
+            setTimeout(closeMenu, 100);
+        });
     });
     
     // Close menu when clicking on overlay (body::before)
@@ -63,6 +83,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const isClickOnToggle = menuToggle.contains(event.target);
             
             if (!isClickInsideMenu && !isClickOnToggle) {
+                closeMenu();
+            }
+        }
+    });
+    
+    // Also handle touch events for overlay
+    document.addEventListener('touchend', function(event) {
+        if (isMenuOpen) {
+            const isTouchInsideMenu = navMenu.contains(event.target);
+            const isTouchOnToggle = menuToggle.contains(event.target);
+            
+            if (!isTouchInsideMenu && !isTouchOnToggle) {
                 closeMenu();
             }
         }
@@ -85,5 +117,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 250);
     });
+    
+    // Prevent menu from closing when clicking inside it
+    navMenu.addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+    
+    // Ensure menu is closed on page load
+    closeMenu();
 });
 
