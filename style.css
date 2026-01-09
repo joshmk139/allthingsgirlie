@@ -386,6 +386,28 @@ p {
     flex-wrap: wrap;
 }
 
+/* Ensure nav menu is properly displayed on desktop */
+@media (min-width: 769px) {
+    .nav-menu {
+        position: static !important;
+        right: auto !important;
+        width: auto !important;
+        max-width: none !important;
+        height: auto !important;
+        background: none !important;
+        backdrop-filter: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        flex-direction: row !important;
+        overflow: visible !important;
+        transform: none !important;
+    }
+    
+    .nav-menu.active {
+        right: auto !important;
+    }
+}
+
 .nav-link {
     text-decoration: none;
     color: var(--text-medium);
@@ -423,16 +445,20 @@ p {
     display: none;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
     width: 44px;
     height: 44px;
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
-    z-index: 101;
+    z-index: 102;
     position: relative;
     touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: rgba(232, 180, 168, 0.3);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .menu-toggle span {
@@ -1115,10 +1141,18 @@ p {
     }
     
     .menu-toggle {
-        display: flex;
+        display: flex !important;
         position: relative;
-        z-index: 101;
+        z-index: 102;
         order: 2;
+        flex-shrink: 0;
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .menu-toggle:focus {
+        outline: 2px solid var(--rose-gold);
+        outline-offset: 2px;
     }
     
     .nav-menu {
@@ -1128,17 +1162,22 @@ p {
         width: 85%;
         max-width: 320px;
         height: 100vh;
+        height: 100dvh; /* Dynamic viewport height for mobile */
         background: linear-gradient(135deg, rgba(244, 212, 196, 0.98) 0%, rgba(250, 240, 235, 0.98) 100%);
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         flex-direction: column;
         gap: 0;
         padding: 5rem 1.5rem 2rem;
         margin: 0;
         box-shadow: -4px 0 20px rgba(232, 180, 168, 0.3);
         transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        z-index: 100;
+        z-index: 101;
         overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
         list-style: none;
+        will-change: right;
     }
     
     .nav-menu.active {
@@ -1152,12 +1191,16 @@ p {
         top: 0;
         left: 0;
         width: 100%;
+        width: 100vw;
         height: 100%;
+        height: 100vh;
+        height: 100dvh; /* Dynamic viewport height for mobile */
         background: rgba(0, 0, 0, 0.5);
-        z-index: 99;
+        z-index: 100;
         opacity: 1;
         pointer-events: all;
         transition: opacity 0.4s ease;
+        -webkit-tap-highlight-color: transparent;
     }
     
     
@@ -1184,13 +1227,18 @@ p {
         transition: all 0.3s ease;
         width: 100%;
         color: var(--black);
+        -webkit-tap-highlight-color: rgba(232, 180, 168, 0.3);
+        touch-action: manipulation;
+        text-decoration: none;
     }
     
     .nav-link:active,
-    .nav-link:hover {
+    .nav-link:hover,
+    .nav-link:focus {
         background-color: rgba(232, 180, 168, 0.3);
         color: var(--rose-gold-dark);
         transform: translateX(5px);
+        outline: none;
     }
     
     .nav-link::after {
@@ -1552,6 +1600,13 @@ p {
     
     .navbar {
         gap: 0.75rem;
+        position: relative;
+    }
+    
+    .menu-toggle {
+        display: flex !important;
+        z-index: 102;
+        position: relative;
     }
     
     .logo img {
@@ -1560,8 +1615,11 @@ p {
     }
     
     .menu-toggle {
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex !important;
     }
     
     .menu-toggle span {
@@ -1574,6 +1632,7 @@ p {
         max-width: 300px;
         padding: 4.5rem 1.25rem 1.5rem;
     }
+    
     
     .nav-link {
         font-size: 1rem;
